@@ -16,10 +16,7 @@ con.connect(function (err) {
         console.log("Table created");
     });
 
-    con.query("SET @@global.sql_mode= '';", function (err, result) {
-        if (err) throw err;
-        console.log("Query about strict mode updated!");
-    })
+
 
     con.query("ALTER TABLE employee ADD COLUMN manager VARCHAR(255);", function (err, result) {
         if (err) throw err;
@@ -27,5 +24,10 @@ con.connect(function (err) {
     })
 
     //adding a foreing key which is gonna BE managers column
+
+    con.query("ALTER TABLE employee ADD CONSTRAINT MANAGER FOREIGN KEY(manager) REFERENCES employee (manager);;", function (err, result) {
+        if (err) throw err;
+        console.log("Manager Column Added");
+    })
 
 });
