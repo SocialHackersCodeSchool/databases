@@ -95,8 +95,17 @@ con.connect(function (err) {
         console.log("Number of records inserted: " + result.affectedRows);
     });
 
+    con.query("SELECT * FROM EMPLOYEE", function (err, rows, fields) {
+        if (!err)
+            console.log(rows)
+        else
+            console.log("Error")
+    });
 
-
+    con.query("SELECT * FROM employee", function (err, result, fields) {
+        if (err) throw err;
+        console.log(result);
+    });
 
 
 });

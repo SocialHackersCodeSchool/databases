@@ -14,7 +14,13 @@ con.connect(function (err) {
 });
 
 
-con.query(sql, function (err, result) {
+con.query("USE WEEK2", function (err, result) {
     if (err) throw err;
-    console.log("Department Table created");
+    console.log("all selected!!S");
+});
+
+
+con.query("SELECT * FROM employee;", function (err, result) {
+    if (err) throw err;
+    console.log("all selected!!S");
 });
