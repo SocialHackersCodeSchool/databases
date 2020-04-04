@@ -19,8 +19,17 @@ con.query("USE WEEK2", function (err, result) {
     console.log("all selected!!S");
 });
 
+//department with fields:(dept_no(Primary Key), title, description, address)`
 
-con.query("SELECT * FROM employee;", function (err, result) {
+
+con.query("CREATE TABLE department (dept_no INT NOT NULL, title VARCHAR(255) , description TEXT, address varchar(255) , PRIMARY KEY (dept_no));", function (err, result) {
     if (err) throw err;
-    console.log("all selected!!S");
+    console.log("Table Created");
 });
+
+let departments = [
+    [1]
+    [2]
+    [3]
+]
+

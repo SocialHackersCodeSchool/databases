@@ -79,7 +79,7 @@ con.connect(function (err) {
 
     con.query("ALTER TABLE employee ADD FOREIGN KEY (manager) REFERENCES employee (employee_no);", function (err, result) {
         if (err) throw err;
-        console.log("Foreign Key Added !");
+        console.log("Foreign Key Manager Added !");
     })
 
 
@@ -100,6 +100,11 @@ con.connect(function (err) {
             console.log(rows)
         else
             console.log("Error")
+    });
+
+    con.query("ALTER TABLE employee ADD FOREIGN KEY (department) REFERENCES department(dept_no)", function (err, result) {
+        if (err) throw err;
+        console.log("Foreing Key Department Added!");
     });
 
     con.query("SELECT * FROM employee", function (err, result, fields) {
