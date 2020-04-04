@@ -28,8 +28,8 @@ con.query("CREATE TABLE department (dept_no INT NOT NULL, title VARCHAR(255) , d
 });
 
 let departments = [
-    [1]
-    [2]
-    [3]
+    [1, "Logistics", "Manages salaries for employees", "Building A"],
+    [1, "Logistics", "Manages salaries for employees", "Building A"],
+    [1, "Logistics", "Manages salaries for employees", "Building A"]
 ]
 
