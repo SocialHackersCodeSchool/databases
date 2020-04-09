@@ -43,7 +43,7 @@ const projects = [
     [10, 'Beathy', new Date('2020-01-01'), new Date('2020-06-27')]
 ];
 
-
+// first the tables are created
 
 connection.query(
     'CREATE TABLE Departments (dept_no INT, dept_name TEXT, manager TEXT, PRIMARY KEY (dept_no));',
@@ -51,9 +51,9 @@ connection.query(
         if (error) throw error;
         console.log('departments table created');
     });
-//tsek edw //
+
 connection.query(
-    'CREATE TABLE Employees (emp_no INT, emp_name TEXT, salary INT, reports_to TEXT, department INT, manager INT, PRIMARY KEY (emp_no), FOREIGN KEY (department) REFERENCES departments(dept_no));',
+    'CREATE TABLE employees (emp_no INT, emp_name TEXT, salary INT, reports_to TEXT, department INT, manager INT, PRIMARY KEY (emp_no), FOREIGN KEY (department) REFERENCES departments(dept_no));',
     (error, results) => {
         if (error) throw error;
         console.log('employes table created');
@@ -66,22 +66,20 @@ connection.query(
         console.log(results);
     });
 
+// from this point the data insert begins
+
 connection.query(
-    `INSERT INTO Employees (emp_no, emp_name, salary, reports_to, department) VALUES ?`, [employees], (err) => {
-        console.error(err)
+    `INSERT INTO departments (dept_no, dept_name, manager) VALUES ?`, [departments], (err, result) => {
+        if (err) throw err;
+        console.log('departments data inserted')
     }
 );
 
-connection.query(
-    `INSERT INTO Departments (dept_no, dept_name, manager) VALUES ?`, [departments], (err) => {
-        console.error(err);
-    }
-);
-
 
 connection.query(
-    `INSERT INTO Employees (emp_no, emp_name, salary, reports_to, department) VALUES ?`, [employees], (err) => {
-        console.error(err)
+    `INSERT INTO Employees (emp_no, emp_name, salary, reports_to, department) VALUES ?`, [employees], (err, data) => {
+        if (err) throw err;
+        console.log()
     }
 );
 

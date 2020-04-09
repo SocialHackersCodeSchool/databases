@@ -1,13 +1,11 @@
 begin TRANSACTION;
 
 UPDATE departments 
-SET manager = $
-{emp_no}
-WHERE dept_no = ${dept_no};
+SET manager = 2
+WHERE dept_no = 3;
 
 UPDATE employees 
-SET reports_to = $
-{emp_no}
-WHERE employees.dpt_no = ${dept_no};
+SET reports_to = 2
+WHERE dpt_no = 3;
 
 COMMIT;
