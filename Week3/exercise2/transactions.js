@@ -32,9 +32,9 @@ function flatify(dept_no, emp_no) {
                 });
             }
 
-            var log = result.insertId;
 
-            connection.query('INSERT INTO log SET logid=?', log, function (err, result) {
+
+            connection.query(`update employees SET reports_to = ${emp_no} WHERE department = ${dept_no}; `, function (err, result) {
                 if (err) {
                     connection.rollback(function () {
                         throw err;
