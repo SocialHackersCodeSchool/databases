@@ -23,31 +23,31 @@ con.connect(function (err) {
 function flatify(dept_no, emp_no) {
 
     /* Begin transaction */
-    connection.beginTransaction(function (err) {
+    con.beginTransaction(function (err) {
         if (err) { throw err; }
-        connection.query(`update departments SET manager = ${emp_no} WHERE dept_no = ${dept_no}; `, function (err, result) {
+        con.query(`update departments SET manager = ${emp_no} WHERE dept_no = ${dept_no}; `, function (err, result) {
             if (err) {
-                connection.rollback(function () {
+                con.rollback(function () {
                     throw err;
                 });
             }
 
 
 
-            connection.query(`update employees SET reports_to = ${emp_no} WHERE department = ${dept_no}; `, function (err, result) {
+            con.query(`update employees SET reports_to = ${emp_no} WHERE department = ${dept_no}; `, function (err, result) {
                 if (err) {
                     connection.rollback(function () {
                         throw err;
                     });
                 }
-                connection.commit(function (err) {
+                con.commit(function (err) {
                     if (err) {
-                        connection.rollback(function () {
+                        con.rollback(function () {
                             throw err;
                         });
                     }
                     console.log('Transaction Complete.');
-                    connection.end();
+                    con.end();
                 });
             });
         });
@@ -55,3 +55,6 @@ function flatify(dept_no, emp_no) {
     /* End transaction */
 
 }
+
+
+flatify(2, 5);
