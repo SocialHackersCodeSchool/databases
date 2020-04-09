@@ -56,5 +56,5 @@ function flatify(dept_no, emp_no) {
 
 }
 
-
+//testing the flatify function
 flatify(2, 5);
