@@ -23,36 +23,32 @@ function getPopulation(cityOrCountry, name, cb) {
 
 function getPopulation(cityOrCountry, name, cb) {
     // assuming that connection to the database is established and stored as conn
-    conn.query(
-        `PREPARE getPopulation FROM SELECT population FROM idone where name = idtwo;`,
-        function (err, result) {
-            if (err) cb(err);
-            if (result.length == 0) cb(new Error("Not found"));
-            cb(null, result[0].name);
-        }
+    con.connect(function (err) {
+        if (err) throw err;
+        con.query("SELECT Population from ? WHERE Name = ?", [cityOrCountry, name], function (err, result) {
+            if (err) CB(err);
+            if (result.length == 0) cb(new Error("Not found"))
+            console.log(result);
+        });
+    });
 
-    conn.query(
-            `SET @idone = ${cityOrCountry};`,
-            function (err, result) {
-                if (err) cb(err);
-                if (result.length == 0) cb(new Error("Not found"));
-                cb(null, result[0].name);
-            }
-    conn.query(
-                `SET @idtwo = ${name};`,
-                function (err, result) {
-                    if (err) cb(err);
-                    if (result.length == 0) cb(new Error("Not found"));
-                    cb(null, result[0].name);
-                }
 
-    conn.query(
-                    `EXECUTE getPopulation USING @idone, @idtwo`,
-                    function (err, result) {
-                        if (err) cb(err);
-                        if (result.length == 0) cb(new Error("Not found"));
-                        cb(null, result[0].name);
-                    }
-                );
 }
 
+//and this is the other solution, but i think it uses another module. please inform me about the right one!! thank you!!
+
+
+
+connection.prepare('SELECT Population FROM ? WHERE Name = ?', (err, statement) => {
+    // statement.parameters - array of column definitions, length === number of params, here 2
+    // statement.columns - array of result column definitions. Can be empty if result schema is dynamic / not known
+    // statement.id
+    // statement.query
+
+    statement.execute([cityOrCountry, name], (err, rows, columns) => {
+        console.log("population selected")
+    });
+
+    // note that there is no callback here. There is no statement close ack at protocol level.
+    statement.close();
+});
