@@ -10,29 +10,24 @@ const connection = mysql.createConnection({
 connection.connect();
 
 const employees = [
-    [1, 'Alexis Zhang', 12000, 'Victoria Marquez'],
-    [2, 'Leana Rolland', 30000, 'Corey Phillips'],
-    [3, 'Caroline Ross', 140000, 'Cameron Brown'],
-    [4, 'Toivo Wuori', 90000, 'Madeleine Melchior'],
-    [5, 'Angeles Nunez', 20000, 'Roméo Rodriguez'],
-    [6, 'Christianus Cools', 150000, 'Vilde Kyllingstad'],
-    [7, 'Tina Guerin', 50000, 'Madeleine Melchior'],
-    [8, 'Marvin Garrett', 34000, 'Adam Kowalski'],
-    [9, 'Jovelino Ribeiro', 73000, 'Madeleine Melchior'],
-    [10, 'Madeleine Melchior', 600500, 'Ella Bergeron']
+    [1, 'Alexis Zhang', 12000, 'Victoria Marquez', 2],
+    [2, 'Leana Rolland', 30000, 'Corey Phillips', 1],
+    [3, 'Caroline Ross', 140000, 'Cameron Brown', 4],
+    [4, 'Toivo Wuori', 90000, 'Madeleine Melchior', 3],
+    [5, 'Angeles Nunez', 20000, 'Roméo Rodriguez', 2],
+    [6, 'Christianus Cools', 150000, 'Vilde Kyllingstad', 1],
+    [7, 'Tina Guerin', 50000, 'Madeleine Melchior', 4],
+    [8, 'Marvin Garrett', 34000, 'Adam Kowalski', 3],
+    [9, 'Jovelino Ribeiro', 73000, 'Madeleine Melchior', 2],
+    [10, 'Madeleine Melchior', 600500, 'Ella Bergeron', 1]
 ];
 
 const departments = [
     [1, 'Administrative', 'Luke Skywalker'],
     [2, 'Marketing', 'Claas Wieczorek'],
     [3, 'Engineering', 'Lino da Rocha'],
-    [4, 'Finance', 'Veera Ylitalo'],
-    [5, 'Product Management', 'Dale Turner'],
-    [6, 'Customer Support', 'Manuel Clark'],
-    [7, 'Government Relations', 'Adam Kowalski'],
-    [8, 'Legal Relations', 'Adèle Duval'],
-    [9, 'Account Management', 'Paula Vargas'],
-    [10, 'Risk Management', 'Angela Moss']
+    [4, 'Finance', 'Veera Ylitalo']
+
 ];
 
 const projects = [
@@ -48,18 +43,20 @@ const projects = [
     [10, 'Beathy', new Date('2020-01-01'), new Date('2020-06-27')]
 ];
 
-connection.query(
-    'CREATE TABLE Employees (emp_no INT PRIMARY KEY, emp_name TEXT, salary INT, reports_to TEXT);',
-    (error, results) => {
-        if (error) throw error;
-        console.log(results);
-    });
+
 
 connection.query(
-    'CREATE TABLE Departments (dept_no INT, dept_name TEXT, manager TEXT);',
+    'CREATE TABLE Departments (dept_no INT, dept_name TEXT, manager TEXT, PRIMARY KEY (dept_no));',
     (error, results) => {
         if (error) throw error;
-        console.log(results);
+        console.log('departments table created');
+    });
+//tsek edw //
+connection.query(
+    'CREATE TABLE Employees (emp_no INT, emp_name TEXT, salary INT, reports_to TEXT, department INT, manager INT, PRIMARY KEY (emp_no), FOREIGN KEY (department) REFERENCES departments(dept_no));',
+    (error, results) => {
+        if (error) throw error;
+        console.log('employes table created');
     });
 
 connection.query(
@@ -70,7 +67,7 @@ connection.query(
     });
 
 connection.query(
-    `INSERT INTO Employees (emp_no, emp_name, salary, reports_to) VALUES ?`, [employees], (err) => {
+    `INSERT INTO Employees (emp_no, emp_name, salary, reports_to, department) VALUES ?`, [employees], (err) => {
         console.error(err)
     }
 );
@@ -81,10 +78,20 @@ connection.query(
     }
 );
 
+
+connection.query(
+    `INSERT INTO Employees (emp_no, emp_name, salary, reports_to, department) VALUES ?`, [employees], (err) => {
+        console.error(err)
+    }
+);
+
+
 connection.query(`
   INSERT INTO Projects (proj_no, proj_name, starting_date, ending_date) VALUES ?`, [projects], (err) => {
     console.error(err);
 }
+
+
 );
 
 connection.end();
