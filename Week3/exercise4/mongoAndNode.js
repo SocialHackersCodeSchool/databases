@@ -13,14 +13,33 @@ const myCity = {
 MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
     if (err) throw err;
     var dbo = db.db("world");
-    dbo.collection("city").find({ Name: 'Irakleio' }).toArray(function (err, result) {
-        if (err) throw err;
-        console.log(result);
-        db.close();
-    })
+
     dbo.collection("city").insertOne(myCity, function (err, res) {
         if (err) throw err;
         console.log("1 city inserted");
-        db.close();
+
     })
+
+    dbo.collection("city").find({ Name: 'Irakleio' }).toArray(function (err, result) {
+        if (err) throw err;
+        console.log(result);
+
+    })
+
+    dbo.collection("city").updateOne({ Name: "Irakleio" }, { $set: { Population: "250654" } }, function (err, res) {
+        if (err) throw err;
+        console.log("1 city updated");
+
+
+    })
+
+
+    dbo.collection("city").deleteMany({ Name: "Irakleio" }, function (err, obj) {
+        if (err) throw err;
+        console.log(obj.result.n + " document(s) deleted");
+        db.close();
+
+    })
+
+
 })
